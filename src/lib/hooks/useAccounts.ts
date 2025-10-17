@@ -3,9 +3,9 @@ import apiClient from "@/lib/api-client";
 import { Account, TransactionsResponse } from "@/types";
 
 // API functions
-const getOrganizationAccount = async (
+const getOrganizationAccounts = async (
   organizationId: string
-): Promise<Account> => {
+): Promise<Account[]> => {
   const response = await apiClient.get(
     `/accounts/organization/${organizationId}`
   );
@@ -45,10 +45,10 @@ const getAccountTransactions = async (
 };
 
 // Hooks
-export const useOrganizationAccount = (organizationId: string) => {
+export const useOrganizationAccounts = (organizationId: string) => {
   return useQuery({
     queryKey: ["accounts", "organization", organizationId],
-    queryFn: () => getOrganizationAccount(organizationId),
+    queryFn: () => getOrganizationAccounts(organizationId),
     enabled: !!organizationId,
   });
 };

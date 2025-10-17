@@ -20,7 +20,7 @@ export {
 
 // Accounts
 export {
-  useOrganizationAccount,
+  useOrganizationAccounts,
   useAccountTransactions,
   useMyAccounts,
 } from "./useAccounts";
