@@ -29,9 +29,12 @@ export const userUtils = {
     if (typeof window === "undefined") return null;
     try {
       const userStr = localStorage.getItem("user");
-      return userStr ? JSON.parse(userStr) : null;
+      if (!userStr) return null;
+      return JSON.parse(userStr);
     } catch (error) {
       console.error("Error parsing user data:", error);
+      // Clear corrupted user data
+      localStorage.removeItem("user");
       return null;
     }
   },

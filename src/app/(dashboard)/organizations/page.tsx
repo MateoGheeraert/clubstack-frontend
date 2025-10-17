@@ -49,20 +49,16 @@ export default function OrganizationsPage() {
           ))
         ) : organizations && organizations.length > 0 ? (
           // Organizations list
-          organizations.map((userOrg) => (
-            <Card
-              key={userOrg.id}
-              className='hover:shadow-md transition-shadow'
-            >
+          organizations.map((org) => (
+            <Card key={org.id} className='hover:shadow-md transition-shadow'>
               <CardHeader>
                 <div className='flex items-center justify-between'>
                   <Building2 className='h-6 w-6 text-muted-foreground' />
                   <Badge variant='outline'>Member</Badge>
                 </div>
-                <CardTitle>{userOrg.organization.name}</CardTitle>
+                <CardTitle>{org.name}</CardTitle>
                 <CardDescription>
-                  {userOrg.organization.description ||
-                    "No description available"}
+                  {org.description || "No description available"}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -73,7 +69,7 @@ export default function OrganizationsPage() {
                   </div>
                   <span className='text-muted-foreground'>
                     Joined{" "}
-                    {formatDistanceToNow(new Date(userOrg.createdAt), {
+                    {formatDistanceToNow(new Date(org.createdAt), {
                       addSuffix: true,
                     })}
                   </span>

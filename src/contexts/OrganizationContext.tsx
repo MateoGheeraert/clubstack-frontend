@@ -7,11 +7,11 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { UserOrganization } from "@/types";
+import { Organization } from "@/types";
 
 interface OrganizationContextType {
-  selectedOrganization: UserOrganization | null;
-  setSelectedOrganization: (org: UserOrganization | null) => void;
+  selectedOrganization: Organization | null;
+  setSelectedOrganization: (org: Organization | null) => void;
   selectedOrganizationId: string | null;
 }
 
@@ -37,9 +37,9 @@ export const OrganizationProvider = ({
   children,
 }: OrganizationProviderProps) => {
   const [selectedOrganization, setSelectedOrganization] =
-    useState<UserOrganization | null>(null);
+    useState<Organization | null>(null);
 
-  const selectedOrganizationId = selectedOrganization?.organization.id || null;
+  const selectedOrganizationId = selectedOrganization?.id || null;
 
   // Persist selected organization in localStorage
   useEffect(() => {
@@ -56,7 +56,7 @@ export const OrganizationProvider = ({
     }
   }, []);
 
-  const handleSetSelectedOrganization = (org: UserOrganization | null) => {
+  const handleSetSelectedOrganization = (org: Organization | null) => {
     setSelectedOrganization(org);
     if (typeof window !== "undefined") {
       if (org) {

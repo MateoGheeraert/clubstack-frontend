@@ -225,12 +225,12 @@ export default function DashboardPage() {
               </div>
             ) : organizations && organizations.length > 0 ? (
               <div className='space-y-3'>
-                {organizations.map((userOrg) => (
-                  <div key={userOrg.id}>
-                    <p className='font-medium'>{userOrg.organization.name}</p>
-                    {userOrg.organization.description && (
+                {organizations.map((org) => (
+                  <div key={org.id}>
+                    <p className='font-medium'>{org.name}</p>
+                    {org.description && (
                       <p className='text-sm text-muted-foreground'>
-                        {userOrg.organization.description}
+                        {org.description}
                       </p>
                     )}
                   </div>

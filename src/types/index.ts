@@ -142,7 +142,7 @@ export interface UserProfile {
   role: "USER" | "ADMIN";
   createdAt: string;
   updatedAt: string;
-  organizations: UserOrganization[];
+  organizations: Organization[];
   recentTasks: Task[];
   stats: {
     totalOrganizations: number;

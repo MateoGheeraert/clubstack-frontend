@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@/lib/api-client";
-import { UserOrganization } from "@/types";
+import { Organization } from "@/types";
 
 // API function
-const getMyOrganizations = async (): Promise<UserOrganization[]> => {
+const getMyOrganizations = async (): Promise<Organization[]> => {
   const response = await apiClient.get("/organizations/my");
   return response.data;
 };

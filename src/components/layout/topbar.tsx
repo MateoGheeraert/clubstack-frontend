@@ -29,11 +29,8 @@ export default function Topbar() {
   const [user, setUser] = useState<UserType | null>(null);
   const { data: organizations, isLoading: organizationsLoading } =
     useMyOrganizations();
-  const {
-    selectedOrganization,
-    setSelectedOrganization,
-    selectedOrganizationId,
-  } = useOrganizationContext();
+  const { selectedOrganization, setSelectedOrganization } =
+    useOrganizationContext();
 
   useEffect(() => {
     try {
@@ -68,9 +65,9 @@ export default function Topbar() {
     <div className='flex h-16 items-center justify-between border-b bg-background px-6'>
       <div className='flex items-center space-x-4'>
         <Select
-          value={selectedOrganization?.organization.id || ""}
+          value={selectedOrganization?.id || ""}
           onValueChange={(value) => {
-            const org = organizations?.find((o) => o.organization.id === value);
+            const org = organizations?.find((o) => o.id === value);
             setSelectedOrganization(org || null);
           }}
         >
@@ -82,12 +79,9 @@ export default function Topbar() {
             />
           </SelectTrigger>
           <SelectContent>
-            {organizations?.map((userOrg) => (
-              <SelectItem
-                key={userOrg.organization.id}
-                value={userOrg.organization.id}
-              >
-                {userOrg.organization.name}
+            {organizations?.map((org) => (
+              <SelectItem key={org.id} value={org.id}>
+                {org.name}
               </SelectItem>
             ))}
           </SelectContent>
