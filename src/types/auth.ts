@@ -1,6 +1,6 @@
 export interface User {
   id: string;
-  name: string;
+  name?: string;
   email: string;
   role?: string;
 }
@@ -11,12 +11,17 @@ export interface LoginCredentials {
 }
 
 export interface RegisterCredentials {
-  name: string;
   email: string;
   password: string;
 }
 
 export interface AuthResponse {
-  user: User;
   token: string;
+  refreshToken?: string;
+}
+
+export interface RegisterResponse {
+  id: string;
+  email: string;
+  role: string;
 }

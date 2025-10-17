@@ -19,6 +19,23 @@ export const tokenUtils = {
     localStorage.removeItem("token");
   },
 
+  getRefreshToken: (): string | null => {
+    if (typeof window === "undefined") return null;
+    return Cookies.get("refreshToken") || localStorage.getItem("refreshToken");
+  },
+
+  setRefreshToken: (refreshToken: string): void => {
+    if (typeof window === "undefined") return;
+    Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
+    localStorage.setItem("refreshToken", refreshToken);
+  },
+
+  removeRefreshToken: (): void => {
+    if (typeof window === "undefined") return;
+    Cookies.remove("refreshToken");
+    localStorage.removeItem("refreshToken");
+  },
+
   isAuthenticated: (): boolean => {
     return !!tokenUtils.getToken();
   },
@@ -52,6 +69,7 @@ export const userUtils = {
 
 export const logout = (): void => {
   tokenUtils.removeToken();
+  tokenUtils.removeRefreshToken();
   userUtils.removeUser();
   if (typeof window !== "undefined") {
     window.location.href = "/login";

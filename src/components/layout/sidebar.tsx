@@ -12,8 +12,9 @@ import {
   Building2,
   User,
   LogOut,
+  Loader2,
 } from "lucide-react";
-import { logout } from "@/lib/auth";
+import { useLogout } from "@/lib/hooks/auth";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -26,9 +27,10 @@ const navigation = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const logoutMutation = useLogout();
 
   const handleLogout = () => {
-    logout();
+    logoutMutation.mutate();
   };
 
   return (
@@ -64,8 +66,13 @@ export default function Sidebar() {
           variant='ghost'
           className='w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10'
           onClick={handleLogout}
+          disabled={logoutMutation.isPending}
         >
-          <LogOut className='mr-2 h-4 w-4' />
+          {logoutMutation.isPending ? (
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+          ) : (
+            <LogOut className='mr-2 h-4 w-4' />
+          )}
           Logout
         </Button>
       </div>

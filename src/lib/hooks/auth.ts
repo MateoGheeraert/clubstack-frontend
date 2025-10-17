@@ -24,6 +24,10 @@ const authAPI = {
     const response = await apiClient.get("/user/profile");
     return response.data;
   },
+
+  logout: async (refreshToken: string): Promise<void> => {
+    await apiClient.post("/auth/logout", { refreshToken });
+  },
 };
 
 // Login mutation
@@ -32,7 +36,9 @@ export const useLogin = () => {
     mutationFn: authAPI.login,
     onSuccess: (data: AuthResponse) => {
       tokenUtils.setToken(data.token);
-      userUtils.setUser(data.user);
+      if (data.refreshToken) {
+        tokenUtils.setRefreshToken(data.refreshToken);
+      }
       window.location.href = "/dashboard";
     },
   });
@@ -44,7 +50,9 @@ export const useRegister = () => {
     mutationFn: authAPI.register,
     onSuccess: (data: AuthResponse) => {
       tokenUtils.setToken(data.token);
-      userUtils.setUser(data.user);
+      if (data.refreshToken) {
+        tokenUtils.setRefreshToken(data.refreshToken);
+      }
       window.location.href = "/dashboard";
     },
   });
@@ -56,5 +64,24 @@ export const useProfile = () => {
     queryKey: ["profile"],
     queryFn: authAPI.getProfile,
     enabled: false, // Disabled until backend is connected
+  });
+};
+
+// Logout mutation
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const refreshToken = tokenUtils.getRefreshToken();
+      if (refreshToken) {
+        await authAPI.logout(refreshToken);
+      }
+    },
+    onSettled: () => {
+      // Clear tokens and user data regardless of API call success
+      tokenUtils.removeToken();
+      tokenUtils.removeRefreshToken();
+      userUtils.removeUser();
+      window.location.href = "/login";
+    },
   });
 };

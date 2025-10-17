@@ -16,14 +16,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 
 export default function RegisterForm() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const register = useRegister();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    register.mutate({ name, email, password });
+    register.mutate({ email, password });
   };
 
   return (
@@ -44,18 +43,6 @@ export default function RegisterForm() {
               </Alert>
             )}
 
-            <div className='space-y-2'>
-              <Label htmlFor='name'>Full Name</Label>
-              <Input
-                id='name'
-                type='text'
-                placeholder='Enter your full name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                disabled={register.isPending}
-              />
-            </div>
             <div className='space-y-2'>
               <Label htmlFor='email'>Email</Label>
               <Input
