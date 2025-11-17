@@ -11,9 +11,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOrganizationAccounts } from "@/lib/hooks";
+import { useOrganizationAccounts } from "@/lib/hooks/useTrpcAccounts";
 import { useOrganizationContext } from "@/contexts/OrganizationContext";
 import { Plus, Wallet, DollarSign, ChevronRight } from "lucide-react";
+import type { Account } from "@/types";
 
 export default function AccountsPage() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function AccountsPage() {
     useOrganizationAccounts(selectedOrganizationId || "");
 
   const totalBalance =
-    accounts?.reduce((sum, account) => sum + account.balance, 0) || 0;
+    accounts?.reduce((sum: number, account: Account) => sum + account.balance, 0) || 0;
 
   return (
     <div className='space-y-6'>
@@ -86,7 +87,7 @@ export default function AccountsPage() {
               <Skeleton className='h-8 w-16' />
             ) : (
               <div className='text-2xl font-bold'>
-                {accounts?.filter((acc) => acc.balance >= 0).length || 0}
+                {accounts?.filter((acc: Account) => acc.balance >= 0).length || 0}
               </div>
             )}
           </CardContent>
@@ -119,7 +120,7 @@ export default function AccountsPage() {
             </div>
           ) : accounts && accounts.length > 0 ? (
             <div className='space-y-3'>
-              {accounts.map((account) => (
+              {accounts.map((account: Account) => (
                 <div
                   key={account.id}
                   className='flex items-center justify-between p-4 border rounded hover:bg-muted/50 cursor-pointer transition-colors group'

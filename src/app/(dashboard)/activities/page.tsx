@@ -10,10 +10,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOrganizationActivities } from "@/lib/hooks";
+import { useOrganizationActivities } from "@/lib/hooks/useTrpcActivities";
 import { useOrganizationContext } from "@/contexts/OrganizationContext";
 import { Plus, Calendar, MapPin, Clock } from "lucide-react";
 import { format } from "date-fns";
+import type { Activity } from "@/types";
 
 export default function ActivitiesPage() {
   const { selectedOrganizationId } = useOrganizationContext();
@@ -57,7 +58,7 @@ export default function ActivitiesPage() {
           ))
         ) : activities && activities.length > 0 ? (
           // Activities list
-          activities.map((activity) => (
+          activities.map((activity: Activity) => (
             <Card
               key={activity.id}
               className='hover:shadow-md transition-shadow'

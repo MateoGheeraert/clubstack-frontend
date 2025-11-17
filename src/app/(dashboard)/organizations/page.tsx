@@ -10,9 +10,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMyOrganizations } from "@/lib/hooks";
+import { useMyOrganizations } from "@/lib/hooks/useTrpcOrganizations";
 import { Plus, Building2, Users } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import type { Organization } from "@/types";
 
 export default function OrganizationsPage() {
   const { data: organizations, isLoading } = useMyOrganizations();
@@ -49,7 +50,7 @@ export default function OrganizationsPage() {
           ))
         ) : organizations && organizations.length > 0 ? (
           // Organizations list
-          organizations.map((org) => (
+          organizations.map((org: Organization) => (
             <Card key={org.id} className='hover:shadow-md transition-shadow'>
               <CardHeader>
                 <div className='flex items-center justify-between'>

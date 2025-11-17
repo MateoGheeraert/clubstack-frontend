@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -50,15 +49,15 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import {
-  getAccount,
-  getAccountTransactions,
-  createTransaction,
-} from "../actions";
+  useAccount,
+  useAccountTransactions,
+} from "@/lib/hooks/useTrpcAccounts";
+import { useCreateTransaction } from "@/lib/hooks/useTrpcTransactions";
+import type { Transaction } from "@/types";
 
 export default function AccountDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const accountId = params.accountId as string;
 
   const [transactionType, setTransactionType] = useState<
@@ -82,58 +81,21 @@ export default function AccountDetailPage() {
     transactionCode: "",
   });
 
-  // Fetch account details
-  const { data: account, isLoading: accountLoading } = useQuery({
-    queryKey: ["account", accountId],
-    queryFn: () => getAccount(accountId),
-    enabled: !!accountId,
-  });
+  // Fetch account details using tRPC
+  const { data: account, isLoading: accountLoading } = useAccount(accountId);
 
-  // Fetch transactions
+  // Fetch transactions using tRPC
   const { data: transactionsResponse, isLoading: transactionsLoading } =
-    useQuery({
-      queryKey: [
-        "transactions",
-        "account",
-        accountId,
-        page,
-        10,
-        transactionType,
-        minAmount,
-        maxAmount,
-      ],
-      queryFn: () =>
-        getAccountTransactions(
-          accountId,
-          page,
-          10,
-          transactionType,
-          minAmount,
-          maxAmount
-        ),
-      enabled: !!accountId,
+    useAccountTransactions(accountId, {
+      page,
+      limit: 10,
+      transactionType,
+      minAmount,
+      maxAmount,
     });
 
-  // Create transaction mutation
-  const createTransactionMutation = useMutation({
-    mutationFn: createTransaction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["transactions", "account", accountId],
-      });
-      queryClient.invalidateQueries({ queryKey: ["account", accountId] });
-      queryClient.invalidateQueries({ queryKey: ["accounts"] });
-      setIsDialogOpen(false);
-      // Reset form
-      setNewTransaction({
-        amount: "",
-        transactionType: "DEPOSIT",
-        description: "",
-        transactionDate: new Date().toISOString().split("T")[0],
-        transactionCode: "",
-      });
-    },
-  });
+  // Create transaction mutation using tRPC
+  const createTransactionMutation = useCreateTransaction();
 
   const handleCreateTransaction = () => {
     if (!newTransaction.amount || !newTransaction.description) return;
@@ -145,6 +107,16 @@ export default function AccountDetailPage() {
       description: newTransaction.description,
       transactionDate: new Date(newTransaction.transactionDate).toISOString(),
       transactionCode: newTransaction.transactionCode,
+    });
+
+    // Reset form and close dialog
+    setIsDialogOpen(false);
+    setNewTransaction({
+      amount: "",
+      transactionType: "DEPOSIT",
+      description: "",
+      transactionDate: new Date().toISOString().split("T")[0],
+      transactionCode: "",
     });
   };
 
@@ -507,7 +479,7 @@ export default function AccountDetailPage() {
                   </TableRow>
                 ))
               ) : transactionsResponse?.transactions?.length ? (
-                transactionsResponse.transactions.map((transaction) => (
+                transactionsResponse.transactions.map((transaction: Transaction) => (
                   <TableRow key={transaction.id}>
                     <TableCell>
                       {format(

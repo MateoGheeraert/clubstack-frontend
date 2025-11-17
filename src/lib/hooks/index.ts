@@ -1,26 +1,12 @@
-// Organizations
-export { useMyOrganizations } from "./useOrganizations";
+// Re-export tRPC hooks for convenience
+export * from "./useTrpcAuth";
+export * from "./useTrpcOrganizations";
+export * from "./useTrpcAccounts";
+export * from "./useTrpcTasks";
+export * from "./useTrpcActivities";
+export * from "./useTrpcTransactions";
 
-// Activities
-export {
-  useOrganizationActivities,
-  useUpcomingActivities,
-} from "./useActivities";
+// Legacy/stub exports for backward compatibility
+export * from "./legacy";
+export * from "./user";
 
-// Tasks
-export { useMyTasks, useRecentTasks } from "./useTasks";
-
-// User
-export {
-  useUserMe,
-  useUserProfile,
-  useUserStatsAPI,
-  useUserStats,
-} from "./useUser";
-
-// Accounts
-export {
-  useOrganizationAccounts,
-  useAccountTransactions,
-  useMyAccounts,
-} from "./useAccounts";

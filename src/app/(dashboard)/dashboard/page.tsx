@@ -10,18 +10,22 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useMyOrganizations,
-  useMyTasks,
   useUpcomingActivities,
   useMyAccounts,
   useUserStats,
 } from "@/lib/hooks";
+import { useMyOrganizations } from "@/lib/hooks/useTrpcOrganizations";
+import { useTasks } from "@/lib/hooks/useTrpcTasks";
 import { Building2, CheckSquare, Calendar, Wallet } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import type { Task, Organization, Activity, Account } from "@/types";
 
 export default function DashboardPage() {
   const { data: organizations, isLoading: orgsLoading } = useMyOrganizations();
-  const { data: tasksResponse, isLoading: tasksLoading } = useMyTasks(1, 5);
+  const { data: tasksResponse, isLoading: tasksLoading } = useTasks({
+    page: 1,
+    limit: 5,
+  });
   const tasks = tasksResponse?.tasks || [];
   const { data: activities, isLoading: activitiesLoading } =
     useUpcomingActivities();
@@ -117,7 +121,7 @@ export default function DashboardPage() {
               <div className='text-2xl font-bold'>
                 $
                 {accounts
-                  ?.reduce((sum, account) => sum + (account?.balance || 0), 0)
+                  ?.reduce((sum: number, account: Account) => sum + (account?.balance || 0), 0)
                   ?.toFixed(2) || "0.00"}
               </div>
             )}
@@ -144,7 +148,7 @@ export default function DashboardPage() {
               </div>
             ) : tasks && tasks.length > 0 ? (
               <div className='space-y-3'>
-                {tasks.map((task) => (
+                {tasks.map((task: Task) => (
                   <div
                     key={task.id}
                     className='flex items-center justify-between'
@@ -187,7 +191,7 @@ export default function DashboardPage() {
               </div>
             ) : activities && activities.length > 0 ? (
               <div className='space-y-3'>
-                {activities.map((activity) => (
+                {activities.map((activity: Activity) => (
                   <div
                     key={activity.id}
                     className='flex items-center justify-between'
@@ -225,7 +229,7 @@ export default function DashboardPage() {
               </div>
             ) : organizations && organizations.length > 0 ? (
               <div className='space-y-3'>
-                {organizations.map((org) => (
+                {organizations.map((org: Organization) => (
                   <div key={org.id}>
                     <p className='font-medium'>{org.name}</p>
                     {org.description && (
@@ -260,7 +264,7 @@ export default function DashboardPage() {
               </div>
             ) : accounts && accounts.length > 0 ? (
               <div className='space-y-3'>
-                {accounts.map((account) => (
+                {accounts.map((account: Account) => (
                   <div
                     key={account.id}
                     className='flex items-center justify-between'

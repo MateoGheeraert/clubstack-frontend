@@ -47,7 +47,14 @@ export const OrganizationProvider = ({
       const saved = localStorage.getItem("selectedOrganization");
       if (saved) {
         try {
-          setSelectedOrganization(JSON.parse(saved));
+          const parsed = JSON.parse(saved);
+          // Clear old UserOrganization format (has nested organization property)
+          if (parsed.organization) {
+            console.log("Clearing old UserOrganization format");
+            localStorage.removeItem("selectedOrganization");
+            return;
+          }
+          setSelectedOrganization(parsed);
         } catch (error) {
           console.error("Error parsing saved organization:", error);
           localStorage.removeItem("selectedOrganization");

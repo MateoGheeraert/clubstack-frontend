@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRegister } from "@/lib/hooks/auth";
+import { useRegister } from "@/lib/hooks/useTrpcAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

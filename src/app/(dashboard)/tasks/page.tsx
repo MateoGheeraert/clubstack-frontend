@@ -26,26 +26,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMyTasks } from "@/lib/hooks";
+import { useTasks } from "@/lib/hooks/useTrpcTasks";
 import { Plus, CheckSquare, Clock, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { formatDistanceToNow } from "date-fns";
+import type { Task } from "@/types";
 
 export default function TasksPage() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [page, setPage] = useState(1);
-  const { data: tasksResponse, isLoading } = useMyTasks(
-    page,
-    10,
-    statusFilter === "all" ? undefined : statusFilter
-  );
+  const { data: tasksResponse, isLoading } = useTasks({
+    page: 1,
+    limit: 10,
+    status:
+      statusFilter === "all"
+        ? undefined
+        : (statusFilter as "pending" | "in_progress" | "completed" | "cancelled"),
+  });
 
   // Deduplicate tasks by title and status (in case backend returns duplicates)
   const allTasks = tasksResponse?.tasks || [];
   const tasks = allTasks.filter(
-    (task, index, arr) =>
+    (task: Task, index: number, arr: Task[]) =>
       index ===
-      arr.findIndex((t) => t.title === task.title && t.status === task.status)
+      arr.findIndex((t: Task) => t.title === task.title && t.status === task.status)
   );
 
   const getStatusIcon = (status: string) => {
@@ -136,7 +139,7 @@ export default function TasksPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {tasks.map((task) => (
+                {tasks.map((task: Task) => (
                   <TableRow key={task.id}>
                     <TableCell>
                       <div className='flex items-center space-x-2'>

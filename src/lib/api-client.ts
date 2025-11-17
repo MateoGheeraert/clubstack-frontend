@@ -32,9 +32,12 @@ const processQueue = (error: unknown, token: string | null = null) => {
 // Request interceptor to add JWT token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("token") || localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Only access localStorage in browser environment
+    if (typeof window !== "undefined") {
+      const token = Cookies.get("token") || localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -67,6 +70,11 @@ apiClient.interceptors.response.use(
 
       originalRequest._retry = true;
       isRefreshing = true;
+
+      // Only attempt token refresh in browser environment
+      if (typeof window === "undefined") {
+        return Promise.reject(error);
+      }
 
       const refreshToken =
         Cookies.get("refreshToken") || localStorage.getItem("refreshToken");

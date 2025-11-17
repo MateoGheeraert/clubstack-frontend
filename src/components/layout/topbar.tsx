@@ -21,6 +21,7 @@ import {
 import { User, Settings, LogOut } from "lucide-react";
 import { logout, userUtils } from "@/lib/auth";
 import { User as UserType } from "@/types/auth";
+import type { Organization } from "@/types";
 import { useMyOrganizations } from "@/lib/hooks";
 import { useOrganizationContext } from "@/contexts/OrganizationContext";
 import Link from "next/link";
@@ -67,7 +68,7 @@ export default function Topbar() {
         <Select
           value={selectedOrganization?.id || ""}
           onValueChange={(value) => {
-            const org = organizations?.find((o) => o.id === value);
+            const org = organizations?.find((o: Organization) => o.id === value);
             setSelectedOrganization(org || null);
           }}
         >
@@ -79,9 +80,9 @@ export default function Topbar() {
             />
           </SelectTrigger>
           <SelectContent>
-            {organizations?.map((org) => (
+            {organizations?.map((org: Organization) => (
               <SelectItem key={org.id} value={org.id}>
-                {org.name}
+                {org.name || org.id || "Unknown Organization"}
               </SelectItem>
             ))}
           </SelectContent>
