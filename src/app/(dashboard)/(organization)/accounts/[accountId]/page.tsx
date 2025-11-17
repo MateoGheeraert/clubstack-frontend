@@ -140,13 +140,13 @@ export default function AccountDetailPage() {
                 account?.accountName
               )}
             </h1>
-            <p className='text-muted-foreground'>
+            <div className='text-muted-foreground'>
               {accountLoading ? (
                 <Skeleton className='h-5 w-48' />
               ) : (
                 `${account?.type} • ${account?.organization?.name}`
               )}
-            </p>
+            </div>
           </div>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
