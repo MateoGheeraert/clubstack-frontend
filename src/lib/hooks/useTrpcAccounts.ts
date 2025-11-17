@@ -46,6 +46,7 @@ export const useAccountTransactions = (
       maxAmount: options?.maxAmount,
       startDate: options?.startDate,
       endDate: options?.endDate,
+      
     },
     {
       enabled: !!accountId,

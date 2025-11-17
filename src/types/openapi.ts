@@ -194,70 +194,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/accounts/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user's accounts */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id?: string;
-                            organizationId?: string;
-                            accountName?: string;
-                            balance?: number;
-                            type?: string;
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** Format: date-time */
-                            updatedAt?: string;
-                            organization?: {
-                                id?: string;
-                                name?: string;
-                            };
-                            Transaction?: {
-                                id?: string;
-                                amount?: number;
-                                transactionType?: string;
-                                description?: string;
-                                /** Format: date-time */
-                                transactionDate?: string;
-                                transactionCode?: string;
-                                /** Format: date-time */
-                                createdAt?: string;
-                            }[];
-                            _count?: {
-                                Transaction?: number;
-                            };
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/accounts/{id}": {
         parameters: {
             query?: never;
@@ -571,6 +507,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/accounts/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user's accounts */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: string;
+                            organizationId?: string;
+                            accountName?: string;
+                            balance?: number;
+                            type?: string;
+                            /** Format: date-time */
+                            createdAt?: string;
+                            /** Format: date-time */
+                            updatedAt?: string;
+                            organization?: {
+                                id?: string;
+                                name?: string;
+                            };
+                            Transaction?: {
+                                id?: string;
+                                amount?: number;
+                                transactionType?: string;
+                                description?: string;
+                                /** Format: date-time */
+                                transactionDate?: string;
+                                transactionCode?: string;
+                                /** Format: date-time */
+                                createdAt?: string;
+                            }[];
+                            _count?: {
+                                Transaction?: number;
+                            };
+                        }[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/activities": {
         parameters: {
             query?: never;
@@ -733,133 +733,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/activities/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user's activities */
-        get: {
-            parameters: {
-                query?: {
-                    title?: string;
-                    startDate?: string;
-                    endDate?: string;
-                    location?: string;
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            activities?: {
-                                id?: string;
-                                organizationId?: string;
-                                title?: string;
-                                /** Format: date-time */
-                                starts_at?: string;
-                                /** Format: date-time */
-                                ends_at?: string;
-                                location?: string;
-                                description?: string;
-                                attendees?: string[];
-                                /** Format: date-time */
-                                createdAt?: string;
-                                /** Format: date-time */
-                                updatedAt?: string;
-                                organization?: {
-                                    id?: string;
-                                    name?: string;
-                                };
-                            }[];
-                            pagination?: {
-                                page?: number;
-                                limit?: number;
-                                total?: number;
-                                totalPages?: number;
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/activities/upcoming": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get upcoming activities */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id?: string;
-                            organizationId?: string;
-                            title?: string;
-                            /** Format: date-time */
-                            starts_at?: string;
-                            /** Format: date-time */
-                            ends_at?: string;
-                            location?: string;
-                            description?: string;
-                            attendees?: string[];
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** Format: date-time */
-                            updatedAt?: string;
-                            organization?: {
-                                id?: string;
-                                name?: string;
-                            };
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1348,6 +1221,133 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/activities/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user's activities */
+        get: {
+            parameters: {
+                query?: {
+                    title?: string;
+                    startDate?: string;
+                    endDate?: string;
+                    location?: string;
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            activities?: {
+                                id?: string;
+                                organizationId?: string;
+                                title?: string;
+                                /** Format: date-time */
+                                starts_at?: string;
+                                /** Format: date-time */
+                                ends_at?: string;
+                                location?: string;
+                                description?: string;
+                                attendees?: string[];
+                                /** Format: date-time */
+                                createdAt?: string;
+                                /** Format: date-time */
+                                updatedAt?: string;
+                                organization?: {
+                                    id?: string;
+                                    name?: string;
+                                };
+                            }[];
+                            pagination?: {
+                                page?: number;
+                                limit?: number;
+                                total?: number;
+                                totalPages?: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/activities/upcoming": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get upcoming activities */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: string;
+                            organizationId?: string;
+                            title?: string;
+                            /** Format: date-time */
+                            starts_at?: string;
+                            /** Format: date-time */
+                            ends_at?: string;
+                            location?: string;
+                            description?: string;
+                            attendees?: string[];
+                            /** Format: date-time */
+                            createdAt?: string;
+                            /** Format: date-time */
+                            updatedAt?: string;
+                            organization?: {
+                                id?: string;
+                                name?: string;
+                            };
+                        }[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tasks": {
         parameters: {
             query?: never;
@@ -1505,138 +1505,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tasks/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user's tasks */
-        get: {
-            parameters: {
-                query?: {
-                    status?: string;
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            tasks?: {
-                                id?: string;
-                                title?: string;
-                                description?: string;
-                                status?: string;
-                                userId?: string;
-                                organizationId?: string;
-                                /** Format: date-time */
-                                createdAt?: string;
-                                /** Format: date-time */
-                                updatedAt?: string;
-                                user?: {
-                                    id?: string;
-                                    email?: string;
-                                    role?: string;
-                                };
-                                organization?: {
-                                    id?: string;
-                                    name?: string;
-                                };
-                            }[];
-                            pagination?: {
-                                page?: number;
-                                limit?: number;
-                                total?: number;
-                                totalPages?: number;
-                            };
-                        };
-                    };
-                };
-                /** @description Default Response */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error?: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tasks/statistics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get task statistics dashboard (Admin only) */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            total?: number;
-                            pending?: number;
-                            in_progress?: number;
-                            completed?: number;
-                            cancelled?: number;
-                        };
-                    };
-                };
-                /** @description Default Response */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error?: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2214,6 +2082,138 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/tasks/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user's tasks */
+        get: {
+            parameters: {
+                query?: {
+                    status?: string;
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            tasks?: {
+                                id?: string;
+                                title?: string;
+                                description?: string;
+                                status?: string;
+                                userId?: string;
+                                organizationId?: string;
+                                /** Format: date-time */
+                                createdAt?: string;
+                                /** Format: date-time */
+                                updatedAt?: string;
+                                user?: {
+                                    id?: string;
+                                    email?: string;
+                                    role?: string;
+                                };
+                                organization?: {
+                                    id?: string;
+                                    name?: string;
+                                };
+                            }[];
+                            pagination?: {
+                                page?: number;
+                                limit?: number;
+                                total?: number;
+                                totalPages?: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error?: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tasks/statistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get task statistics dashboard (Admin only) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            total?: number;
+                            pending?: number;
+                            in_progress?: number;
+                            completed?: number;
+                            cancelled?: number;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error?: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/transactions": {
         parameters: {
             query?: never;
@@ -2405,90 +2405,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/transactions/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user's transactions */
-        get: {
-            parameters: {
-                query?: {
-                    accountId?: string;
-                    transactionType?: "DEPOSIT" | "WITHDRAWAL" | "PAYMENT" | "INCOME";
-                    startDate?: string;
-                    endDate?: string;
-                    minAmount?: number;
-                    maxAmount?: number;
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            transactions?: {
-                                id?: string;
-                                accountId?: string;
-                                amount?: number;
-                                transactionType?: string;
-                                description?: string;
-                                /** Format: date-time */
-                                transactionDate?: string;
-                                transactionCode?: string;
-                                /** Format: date-time */
-                                createdAt?: string;
-                                /** Format: date-time */
-                                updatedAt?: string;
-                                account?: {
-                                    id?: string;
-                                    organizationId?: string;
-                                    accountName?: string;
-                                    balance?: number;
-                                    type?: string;
-                                    organization?: {
-                                        id?: string;
-                                        name?: string;
-                                    };
-                                };
-                            }[];
-                            pagination?: {
-                                page?: number;
-                                limit?: number;
-                                total?: number;
-                                totalPages?: number;
-                            };
-                            summary?: {
-                                totalAmount?: number;
-                                deposits?: number;
-                                withdrawals?: number;
-                                payments?: number;
-                                income?: number;
-                            };
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2812,6 +2728,90 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/transactions/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user's transactions */
+        get: {
+            parameters: {
+                query?: {
+                    accountId?: string;
+                    transactionType?: "DEPOSIT" | "WITHDRAWAL" | "PAYMENT" | "INCOME";
+                    startDate?: string;
+                    endDate?: string;
+                    minAmount?: number;
+                    maxAmount?: number;
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            transactions?: {
+                                id?: string;
+                                accountId?: string;
+                                amount?: number;
+                                transactionType?: string;
+                                description?: string;
+                                /** Format: date-time */
+                                transactionDate?: string;
+                                transactionCode?: string;
+                                /** Format: date-time */
+                                createdAt?: string;
+                                /** Format: date-time */
+                                updatedAt?: string;
+                                account?: {
+                                    id?: string;
+                                    organizationId?: string;
+                                    accountName?: string;
+                                    balance?: number;
+                                    type?: string;
+                                    organization?: {
+                                        id?: string;
+                                        name?: string;
+                                    };
+                                };
+                            }[];
+                            pagination?: {
+                                page?: number;
+                                limit?: number;
+                                total?: number;
+                                totalPages?: number;
+                            };
+                            summary?: {
+                                totalAmount?: number;
+                                deposits?: number;
+                                withdrawals?: number;
+                                payments?: number;
+                                income?: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/me": {
         parameters: {
             query?: never;
@@ -3109,125 +3109,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/organizations/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get current user's organizations */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id?: string;
-                            name?: string;
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** Format: date-time */
-                            updatedAt?: string;
-                            users?: {
-                                id?: string;
-                                user?: {
-                                    id?: string;
-                                    email?: string;
-                                    role?: string;
-                                };
-                                /** Format: date-time */
-                                createdAt?: string;
-                            }[];
-                        }[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/organizations/users/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user's organizations */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Default Response */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            id?: string;
-                            name?: string;
-                            /** Format: date-time */
-                            createdAt?: string;
-                            /** Format: date-time */
-                            updatedAt?: string;
-                            users?: {
-                                id?: string;
-                                user?: {
-                                    id?: string;
-                                    email?: string;
-                                    role?: string;
-                                };
-                                /** Format: date-time */
-                                createdAt?: string;
-                            }[];
-                        }[];
-                    };
-                };
-                /** @description Default Response */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error?: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/organizations/{id}": {
         parameters: {
             query?: never;
@@ -3436,7 +3317,64 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get all users of an organization (Admin only) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: string;
+                            userId?: string;
+                            organizationId?: string;
+                            role?: string;
+                            /** Format: date-time */
+                            createdAt?: string;
+                            user?: {
+                                id?: string;
+                                email?: string;
+                                /** Format: date-time */
+                                createdAt?: string;
+                            };
+                        }[];
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error?: string;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error?: string;
+                        };
+                    };
+                };
+            };
+        };
         put?: never;
         /** Add user to organization (Admin only) */
         post: {
@@ -3571,6 +3509,117 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user's organizations */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: string;
+                            name?: string;
+                            /** Format: date-time */
+                            createdAt?: string;
+                            /** Format: date-time */
+                            updatedAt?: string;
+                            /** @enum {string} */
+                            role?: "ADMIN" | "USER";
+                        }[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/organizations/users/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get user's organizations */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            id?: string;
+                            name?: string;
+                            /** Format: date-time */
+                            createdAt?: string;
+                            /** Format: date-time */
+                            updatedAt?: string;
+                            users?: {
+                                id?: string;
+                                user?: {
+                                    id?: string;
+                                    email?: string;
+                                    role?: string;
+                                };
+                                /** Format: date-time */
+                                createdAt?: string;
+                            }[];
+                        }[];
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error?: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;

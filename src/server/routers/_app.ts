@@ -8,6 +8,7 @@ import { organizationsRouter } from "./organizations";
 import { tasksRouter } from "./tasks";
 import { activitiesRouter } from "./activities";
 import { transactionsRouter } from "./transactions";
+import { membersRouter } from "./members";
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   tasks: tasksRouter,
   activities: activitiesRouter,
   transactions: transactionsRouter,
+  members: membersRouter,
 });
 
 // export type definition of API

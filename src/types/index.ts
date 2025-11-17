@@ -154,3 +154,16 @@ export interface UserStatsAPI {
   totalTasks: number;
   totalOrganizations: number;
 }
+
+export interface OrganizationMember {
+  id: string;
+  userId: string;
+  organizationId: string;
+  role: string;
+  createdAt: string;
+  user: {
+    id: string;
+    email: string;
+    createdAt: string;
+  };
+}
