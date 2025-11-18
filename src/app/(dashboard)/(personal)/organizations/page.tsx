@@ -27,10 +27,6 @@ export default function OrganizationsPage() {
             Manage your organizations and memberships
           </p>
         </div>
-        <Button>
-          <Plus className='mr-2 h-4 w-4' />
-          New Organization
-        </Button>
       </div>
 
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
@@ -55,7 +51,6 @@ export default function OrganizationsPage() {
               <CardHeader>
                 <div className='flex items-center justify-between'>
                   <Building2 className='h-6 w-6 text-muted-foreground' />
-                  <Badge variant='outline'>Member</Badge>
                 </div>
                 <CardTitle>{org.name}</CardTitle>
                 <CardDescription>

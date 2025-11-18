@@ -17,13 +17,12 @@ import {
   LayoutDashboard,
   CheckSquare,
   Wallet,
-  Building2,
   User,
-  Settings,
   LogOut,
   Loader2,
   Users,
   Activity,
+  Building,
 } from "lucide-react";
 import { useLogout } from "@/lib/hooks/auth";
 import { useEffect, useState } from "react";
@@ -33,10 +32,10 @@ import { userUtils } from "@/lib/auth";
 const personalNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "My Tasks", href: "/tasks", icon: CheckSquare },
-  { name: "Organizations", href: "/organizations", icon: Building2 },
 ];
 
 const organizationNavigation = [
+  { name: "Overview", href: "/overview", icon: LayoutDashboard },
   { name: "Activities", href: "/activities", icon: Activity },
   { name: "Accounts & Transactions", href: "/accounts", icon: Wallet },
   { name: "Members", href: "/members", icon: Users },
@@ -178,9 +177,9 @@ export default function Sidebar() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href='/settings' className='flex items-center cursor-pointer'>
-                <Settings className='mr-2 h-4 w-4' />
-                <span>Settings</span>
+              <Link href='/organizations' className='flex items-center cursor-pointer'>
+                <Building className='mr-2 h-4 w-4' />
+                <span>My organizations</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
