@@ -36,6 +36,7 @@ const personalNavigation = [
 
 const organizationNavigation = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
+  { name: "Tasks", href: "/taskmanager", icon: CheckSquare },
   { name: "Activities", href: "/activities", icon: Activity },
   { name: "Accounts & Transactions", href: "/accounts", icon: Wallet },
   { name: "Members", href: "/members", icon: Users },

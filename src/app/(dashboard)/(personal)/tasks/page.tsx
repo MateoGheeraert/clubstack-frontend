@@ -26,30 +26,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useTasks } from "@/lib/hooks/useTrpcTasks";
-import { Plus, CheckSquare, Clock, AlertCircle } from "lucide-react";
-import { format } from "date-fns";
-import { formatDistanceToNow } from "date-fns";
-import type { Task } from "@/types";
+import { useMyTasks } from "@/lib/hooks/useTrpcTasks";
+import { CheckSquare, Clock, AlertCircle, Eye } from "lucide-react";
+import { format, formatDistanceToNow } from "date-fns";
+import type { Task, Organization } from "@/types";
+import { TaskDetailsDialog } from "@/components/tasks/task-details-dialog";
+import { useMyOrganizations } from "@/lib/hooks/useTrpcOrganizations";
 
 export default function TasksPage() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const { data: tasksResponse, isLoading } = useTasks({
+  const [organizationFilter, setOrganizationFilter] = useState<string>("all");
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
+
+  const { data: tasksResponse, isLoading } = useMyTasks({
     page: 1,
-    limit: 10,
+    limit: 100,
     status:
       statusFilter === "all"
         ? undefined
         : (statusFilter as "pending" | "in_progress" | "completed" | "cancelled"),
+    organizationId: organizationFilter === "all" ? undefined : organizationFilter,
   });
 
-  // Deduplicate tasks by title and status (in case backend returns duplicates)
-  const allTasks = tasksResponse?.tasks || [];
-  const tasks = allTasks.filter(
-    (task: Task, index: number, arr: Task[]) =>
-      index ===
-      arr.findIndex((t: Task) => t.title === task.title && t.status === task.status)
-  );
+  const { data: organizationsData } = useMyOrganizations();
+
+  const tasks = tasksResponse?.tasks || [];
+  const organizations = organizationsData || [];
+
+  const handleViewTask = (task: Task) => {
+    setSelectedTask(task);
+    setDetailsDialogOpen(true);
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -86,10 +94,6 @@ export default function TasksPage() {
             Manage your assigned tasks and track progress
           </p>
         </div>
-        <Button>
-          <Plus className='mr-2 h-4 w-4' />
-          New Task
-        </Button>
       </div>
 
       {/* Filters */}
@@ -104,6 +108,20 @@ export default function TasksPage() {
             <SelectItem value='in_progress'>In Progress</SelectItem>
             <SelectItem value='completed'>Completed</SelectItem>
             <SelectItem value='cancelled'>Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={organizationFilter} onValueChange={setOrganizationFilter}>
+          <SelectTrigger className='w-[200px]'>
+            <SelectValue placeholder='Filter by organization' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='all'>All Organizations</SelectItem>
+            {organizations.map((org: Organization) => (
+              <SelectItem key={org.id} value={org.id}>
+                {org.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -132,6 +150,7 @@ export default function TasksPage() {
                 <TableRow>
                   <TableHead>Status</TableHead>
                   <TableHead>Title</TableHead>
+                  <TableHead>Organization</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead>Due Date</TableHead>
@@ -150,8 +169,17 @@ export default function TasksPage() {
                       </div>
                     </TableCell>
                     <TableCell className='font-medium'>{task.title}</TableCell>
+                    <TableCell>
+                      <Badge variant='outline'>{task.organization.name}</Badge>
+                    </TableCell>
                     <TableCell className='text-muted-foreground'>
-                      {task.description || "No description"}
+                      {task.description ? (
+                        task.description.length > 50
+                          ? `${task.description.substring(0, 50)}...`
+                          : task.description
+                      ) : (
+                        "No description"
+                      )}
                     </TableCell>
                     <TableCell>
                       {formatDistanceToNow(new Date(task.createdAt), {
@@ -162,14 +190,14 @@ export default function TasksPage() {
                       {format(new Date(task.createdAt), "MMM dd, yyyy")}
                     </TableCell>
                     <TableCell>
-                      <div className='flex space-x-2'>
-                        <Button variant='outline' size='sm'>
-                          View
-                        </Button>
-                        {task.status !== "completed" && (
-                          <Button size='sm'>Update</Button>
-                        )}
-                      </div>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        onClick={() => handleViewTask(task)}
+                      >
+                        <Eye className='mr-2 h-4 w-4' />
+                        View
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -182,14 +210,17 @@ export default function TasksPage() {
               <p className='text-muted-foreground mb-4'>
                 You don&apos;t have any tasks assigned yet.
               </p>
-              <Button>
-                <Plus className='mr-2 h-4 w-4' />
-                Create Task
-              </Button>
             </div>
           )}
         </CardContent>
       </Card>
+
+      <TaskDetailsDialog
+        task={selectedTask}
+        open={detailsDialogOpen}
+        onOpenChange={setDetailsDialogOpen}
+        canUpdateStatus={true}
+      />
     </div>
   );
 }

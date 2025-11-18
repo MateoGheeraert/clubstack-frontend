@@ -27,9 +27,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 export default function OrganizationDashboardPage() {
   const { selectedOrganization } = useOrganizationContext();
 
-  // Fetch current user
-  const { data: currentUser } = trpc.auth.me.useQuery();
-
   // Fetch organization details
   const { data: organization, isLoading: orgLoading } =
     trpc.organizations.getById.useQuery(
@@ -105,13 +102,6 @@ export default function OrganizationDashboardPage() {
   // Calculate total balance (admin only feature)
   const totalBalance =
     accounts?.reduce((sum, account) => sum + account.balance, 0) ?? 0;
-
-  // Get current user's role in the organization
-  const currentUserMember = members?.find((m) => m.userId === currentUser?.id);
-  const isAdmin = currentUserMember?.role === "ADMIN";
-  
-  // Only show financial data if user is admin and accounts loaded successfully
-  const showFinancials = isAdmin && accounts && !accountsError;
 
   const isLoading =
     orgLoading ||
@@ -202,34 +192,8 @@ export default function OrganizationDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Financial Situation - Admin Only */}
-        {showFinancials && (
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Balance
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-20" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">
-                    ${totalBalance.toFixed(2)}
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Across {accounts?.length ?? 0} accounts
-                  </p>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        )}
 
         {/* Active Tasks - Shown when not admin to fill the grid */}
-        {!showFinancials && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -253,7 +217,6 @@ export default function OrganizationDashboardPage() {
               )}
             </CardContent>
           </Card>
-        )}
       </div>
 
       {/* Main Content Grid */}
@@ -364,7 +327,6 @@ export default function OrganizationDashboardPage() {
         </Card>
 
         {/* Financial Overview - Admin Only */}
-        {showFinancials && accounts && accounts.length > 0 && (
           <Card className="md:col-span-2">
             <CardHeader>
               <CardTitle>Financial Overview</CardTitle>
@@ -379,7 +341,7 @@ export default function OrganizationDashboardPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {accounts.map((account) => (
+                  {accounts!.map((account) => (
                     <div
                       key={account.id}
                       className="flex items-center justify-between border-b pb-4 last:border-0"
@@ -388,14 +350,6 @@ export default function OrganizationDashboardPage() {
                         <p className="text-sm font-medium">
                           {account.accountName}
                         </p>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline">{account.type}</Badge>
-                          {account._count && (
-                            <span className="text-xs text-muted-foreground">
-                              {account._count.Transaction} transactions
-                            </span>
-                          )}
-                        </div>
                       </div>
                       <div className="text-right">
                         <p
@@ -419,67 +373,6 @@ export default function OrganizationDashboardPage() {
               )}
             </CardContent>
           </Card>
-        )}
-
-        {/* Members Overview */}
-        <Card className={isAdmin ? "md:col-span-2" : "md:col-span-2"}>
-          <CardHeader>
-            <CardTitle>Organization Members</CardTitle>
-            <CardDescription>
-              All members and their roles in the organization
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="space-y-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <Skeleton key={i} className="h-12 w-full" />
-                ))}
-              </div>
-            ) : members && members.length > 0 ? (
-              <div className="space-y-3">
-                {members.slice(0, 10).map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex items-center justify-between border-b pb-3 last:border-0"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-medium">
-                        {member.user.email.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">{member.user.email}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Joined {format(new Date(member.createdAt), "PP")}
-                        </p>
-                      </div>
-                    </div>
-                    <Badge
-                      variant={
-                        member.role === "ADMIN"
-                          ? "default"
-                          : member.role === "MODERATOR"
-                          ? "secondary"
-                          : "outline"
-                      }
-                    >
-                      {member.role}
-                    </Badge>
-                  </div>
-                ))}
-                {members.length > 10 && (
-                  <p className="text-xs text-muted-foreground text-center pt-2">
-                    And {members.length - 10} more members...
-                  </p>
-                )}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground py-8 text-center">
-                No members found
-              </p>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

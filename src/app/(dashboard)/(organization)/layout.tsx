@@ -7,6 +7,7 @@ export default function OrganizationLayout({
   children: React.ReactNode;
 }) {
   return (
+    <>‹
     <div className='h-screen flex'>
       <Sidebar />
       <div className='flex-1 flex flex-col overflow-hidden'>
@@ -16,5 +17,6 @@ export default function OrganizationLayout({
         </main>
       </div>
     </div>
+    </>
   );
 }

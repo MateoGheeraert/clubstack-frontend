@@ -6,6 +6,7 @@ export default function PersonalLayout({
   children: React.ReactNode;
 }) {
   return (
+    <>
     <div className='h-screen flex'>
       <Sidebar />
       <div className='flex-1 flex flex-col overflow-hidden'>
@@ -14,5 +15,6 @@ export default function PersonalLayout({
         </main>
       </div>
     </div>
+    </>
   );
 }

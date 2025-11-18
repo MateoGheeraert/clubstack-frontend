@@ -20,12 +20,17 @@ export interface Task {
   description?: string;
   status: "pending" | "in_progress" | "completed" | "cancelled";
   userId: string;
+  organizationId: string;
   createdAt: string;
   updatedAt: string;
   user: {
     id: string;
     email: string;
     role: "USER" | "ADMIN";
+  };
+  organization: {
+    id: string;
+    name: string;
   };
 }
 
