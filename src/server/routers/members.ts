@@ -57,7 +57,50 @@ export const membersRouter = createTRPCRouter({
           },
         }
       );
-      return response.data as { message: string };
+      return response.data;
+    }),
+
+  // Add a member by email
+  addByEmail: protectedProcedure
+    .input(
+      z.object({
+        organizationId: z.string(),
+        email: z.string().email(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const response = await apiClient.post(
+        `/organizations/${input.organizationId}/users/email`,
+        { email: input.email },
+        {
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+          },
+        }
+      );
+      return response.data as OrganizationMember;
+    }),
+
+  // Update member role (promote/demote)
+  updateRole: protectedProcedure
+    .input(
+      z.object({
+        organizationId: z.string(),
+        userId: z.string(),
+        role: z.enum(["USER", "MODERATOR", "ADMIN"]),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const response = await apiClient.patch(
+        `/organizations/${input.organizationId}/users/${input.userId}`,
+        { role: input.role },
+        {
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+          },
+        }
+      );
+      return response.data as OrganizationMember;
     }),
 });
 

@@ -29,3 +29,23 @@ export const useRemoveMember = () => {
     },
   });
 };
+
+// Add a member by email
+export const useAddMemberByEmail = () => {
+  const utils = trpc.useUtils();
+  return trpc.members.addByEmail.useMutation({
+    onSuccess: () => {
+      utils.members.getByOrganization.invalidate();
+    },
+  });
+};
+
+// Update member role (promote/demote)
+export const useUpdateMemberRole = () => {
+  const utils = trpc.useUtils();
+  return trpc.members.updateRole.useMutation({
+    onSuccess: () => {
+      utils.members.getByOrganization.invalidate();
+    },
+  });
+};

@@ -39,6 +39,12 @@ apiClient.interceptors.request.use(
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
+    
+    // Remove Content-Type header for DELETE requests without data
+    if (config.method === 'delete' && !config.data) {
+      delete config.headers['Content-Type'];
+    }
+    
     return config;
   },
   (error) => {

@@ -18,7 +18,7 @@ import { useMyOrganizations } from "@/lib/hooks/useTrpcOrganizations";
 import { useTasks } from "@/lib/hooks/useTrpcTasks";
 import { Building2, CheckSquare, Calendar, Wallet } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import type { Task, Organization, Activity, Account } from "@/types";
+import type { Task, Activity } from "@/types";
 
 export default function DashboardPage() {
   const { data: organizations, isLoading: orgsLoading } = useMyOrganizations();
@@ -29,7 +29,6 @@ export default function DashboardPage() {
   const tasks = tasksResponse?.tasks || [];
   const { data: activities, isLoading: activitiesLoading } =
     useUpcomingActivities();
-  const { data: accounts, isLoading: accountsLoading } = useMyAccounts();
   const { data: stats, isLoading: statsLoading } = useUserStats();
 
   const getStatusColor = (status: string) => {
@@ -104,25 +103,6 @@ export default function DashboardPage() {
             ) : (
               <div className='text-2xl font-bold'>
                 {stats?.activitiesAttended || 0}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Balance</CardTitle>
-            <Wallet className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            {accountsLoading ? (
-              <Skeleton className='h-8 w-20' />
-            ) : (
-              <div className='text-2xl font-bold'>
-                $
-                {accounts
-                  ?.reduce((sum: number, account: Account) => sum + (account?.balance || 0), 0)
-                  ?.toFixed(2) || "0.00"}
               </div>
             )}
           </CardContent>
@@ -211,76 +191,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Organizations */}
-        <Card>
-          <CardHeader>
-            <CardTitle>My Organizations</CardTitle>
-            <CardDescription>Organizations you&apos;re part of</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {orgsLoading ? (
-              <div className='space-y-3'>
-                {[...Array(2)].map((_, i) => (
-                  <div key={i}>
-                    <Skeleton className='h-4 w-32 mb-1' />
-                    <Skeleton className='h-3 w-48' />
-                  </div>
-                ))}
-              </div>
-            ) : organizations && organizations.length > 0 ? (
-              <div className='space-y-3'>
-                {organizations.map((org: Organization) => (
-                  <div key={org.id}>
-                    <p className='font-medium'>{org.name}</p>
-                    {org.description && (
-                      <p className='text-sm text-muted-foreground'>
-                        {org.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className='text-muted-foreground'>No organizations found</p>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Account Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Overview</CardTitle>
-            <CardDescription>Your account balances</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {accountsLoading ? (
-              <div className='space-y-3'>
-                {[...Array(2)].map((_, i) => (
-                  <div key={i} className='flex items-center justify-between'>
-                    <Skeleton className='h-4 w-24' />
-                    <Skeleton className='h-4 w-16' />
-                  </div>
-                ))}
-              </div>
-            ) : accounts && accounts.length > 0 ? (
-              <div className='space-y-3'>
-                {accounts.map((account: Account) => (
-                  <div
-                    key={account.id}
-                    className='flex items-center justify-between'
-                  >
-                    <p className='font-medium'>{account.accountName}</p>
-                    <p className='text-sm font-mono'>
-                      ${(account?.balance || 0).toFixed(2)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className='text-muted-foreground'>No accounts found</p>
-            )}
-          </CardContent>
-        </Card>
+       
       </div>
     </div>
   );
