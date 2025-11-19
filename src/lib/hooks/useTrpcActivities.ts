@@ -64,3 +64,44 @@ export const useDeleteActivity = () => {
     },
   });
 };
+
+export const useMyActivities = (options?: {
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
+}) => {
+  return trpc.activities.getMyActivities.useQuery({
+    page: options?.page ?? 1,
+    limit: options?.limit ?? 100,
+    startDate: options?.startDate,
+    endDate: options?.endDate,
+  });
+};
+
+export const useJoinActivity = () => {
+  const utils = trpc.useUtils();
+  return trpc.activities.joinActivity.useMutation({
+    onSuccess: () => {
+      utils.activities.invalidate();
+    },
+  });
+};
+
+export const useLeaveActivity = () => {
+  const utils = trpc.useUtils();
+  return trpc.activities.leaveActivity.useMutation({
+    onSuccess: () => {
+      utils.activities.invalidate();
+    },
+  });
+};
+
+export const useActivityAttendees = (activityId: string) => {
+  return trpc.activities.getActivityAttendees.useQuery(
+    { activityId },
+    {
+      enabled: !!activityId,
+    }
+  );
+};

@@ -51,10 +51,6 @@ export default function Topbar() {
           </SelectContent>
         </Select>
       </div>
-
-      <div className='flex items-center space-x-4'>
-        {/* Additional topbar actions can go here if needed */}
-      </div>
     </div>
   );
 }

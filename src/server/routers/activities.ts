@@ -67,7 +67,7 @@ export const activitiesRouter = createTRPCRouter({
         ends_at: z.string(),
         location: z.string(),
         description: z.string(),
-        attendees: z.array(z.string()).optional(),
+        nonUserAttendees: z.array(z.string()).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -90,12 +90,12 @@ export const activitiesRouter = createTRPCRouter({
           ends_at: z.string().optional(),
           location: z.string().optional(),
           description: z.string().optional(),
-          attendees: z.array(z.string()).optional(),
+          nonUserAttendees: z.array(z.string()).optional(),
         }),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const response = await apiClient.put(
+      const response = await apiClient.patch(
         `/activities/${input.activityId}`,
         input.data,
         {
@@ -120,6 +120,76 @@ export const activitiesRouter = createTRPCRouter({
         }
       );
       return response.data as { message: string };
+    }),
+
+  // Get current user's activities
+  getMyActivities: protectedProcedure
+    .input(
+      z.object({
+        page: z.number().default(1),
+        limit: z.number().default(100),
+        startDate: z.string().optional(),
+        endDate: z.string().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const response = await apiClient.get("/activities/my", {
+        params: input,
+        headers: {
+          Authorization: `Bearer ${ctx.token}`,
+        },
+      });
+      return response.data as ActivitiesResponse;
+    }),
+
+  // Join an activity
+  joinActivity: protectedProcedure
+    .input(z.object({ activityId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const response = await apiClient.post(
+        `/activities/${input.activityId}/join`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+          },
+        }
+      );
+      return response.data as { message: string };
+    }),
+
+  // Leave an activity
+  leaveActivity: protectedProcedure
+    .input(z.object({ activityId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const response = await apiClient.delete(
+        `/activities/${input.activityId}/leave`,
+        {
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+          },
+        }
+      );
+      return response.data as { message: string };
+    }),
+
+  // Get activity attendees
+  getActivityAttendees: protectedProcedure
+    .input(z.object({ activityId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const response = await apiClient.get(
+        `/activities/${input.activityId}/attendees`,
+        {
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+          },
+        }
+      );
+      return response.data as Array<{
+        id: string;
+        email: string;
+        createdAt: string;
+      }>;
     }),
 });
 

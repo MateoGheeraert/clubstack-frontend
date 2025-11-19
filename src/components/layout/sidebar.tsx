@@ -32,12 +32,14 @@ import { userUtils } from "@/lib/auth";
 const personalNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "My Tasks", href: "/tasks", icon: CheckSquare },
+    { name: "Activities", href: "/activities", icon: Activity },
+
 ];
 
 const organizationNavigation = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
   { name: "Tasks", href: "/taskmanager", icon: CheckSquare },
-  { name: "Activities", href: "/activities", icon: Activity },
+  { name: "Activities", href: "/manageactivities", icon: Activity },
   { name: "Accounts & Transactions", href: "/accounts", icon: Wallet },
   { name: "Members", href: "/members", icon: Users },
 ];
